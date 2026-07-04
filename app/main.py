@@ -11,11 +11,12 @@ from app.models import Base
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all, lifespan=lifespan)
+        await conn.run_sync(Base.metadata.create_all)
     yield
 
 
-app = FastAPI(title="brief-decoder")
+app = FastAPI(title="brief-decoder", lifespan=lifespan)
+
 app.include_router(briefs_router)
 app.add_middleware(
     CORSMiddleware,
