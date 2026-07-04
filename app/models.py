@@ -1,7 +1,7 @@
 from datetime import datetime, UTC
 from enum import StrEnum
 
-from sqlalchemy import DateTime, Enum, Text
+from sqlalchemy import DateTime, Enum, Text, func
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped
 
@@ -32,4 +32,4 @@ class Run(Base):
     error_code: Mapped[ErrorCode] = mapped_column(
         Enum(ErrorCode, name="error_code", values_callable=lambda e: [m.value for m in e]), nullable=True)
     error_message: Mapped[str] = mapped_column(Text, nullable=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(UTC))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
