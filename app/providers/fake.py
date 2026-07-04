@@ -48,7 +48,7 @@ INVALID_SEVERITY_RESPONSE = VALID_RESPONSE.replace('"high"', '"catastrophic"')
 
 class FakeProvider:
     async def decode_brief(self, text: str) -> str:
-        if match := re.search(r"^FAIL:\s*(\w+)", text):
+        if match := re.search(r"^FAIL:\s*(\w+)", text.strip()):
             mode = match.group(1)
 
             if mode == "malformed":
